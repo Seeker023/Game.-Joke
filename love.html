@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do You Love Me? 💕</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffdee9, #b5fffc);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      max-width: 500px;
+      width: 90%;
+    }
+    img {
+      width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #ff4081;
+    }
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    button {
+      padding: 10px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 50px;
+      background: #ff9a9e;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+    }
+    .sparkles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      display: none;
+    }
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: gold;
+      border-radius: 50%;
+      animation: sparkle 1s linear forwards;
+    }
+    @keyframes sparkle {
+      0% { opacity: 1; transform: scale(1) translateY(0); }
+      100% { opacity: 0; transform: scale(2) translateY(-200px); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Music Tracks -->
+  <audio id="bg-music" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="victory-music">
+    <source src="https://www.bensound.com/bensound-music/bensound-happyrock.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="comedy-music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-funnysong.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="container" id="content">
+    <img id="gif" src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" alt="cute gif">
+    <h2 id="question">Do you Love Me? 💕</h2>
+    <div class="buttons">
+      <button onclick="handleYes()">Yes</button>
+      <button id="noBtn" onclick="handleNo()">No</button>
+    </div>
+  </div>
+
+  <div class="sparkles" id="sparkles"></div>
+
+  <script>
+    let step = 0;
+    const gif = document.getElementById("gif");
+    const question = document.getElementById("question");
+    const content = document.getElementById("content");
+    const noBtn = document.getElementById("noBtn");
+    const sparkles = document.getElementById("sparkles");
+
+    const bgMusic = document.getElementById("bg-music");
+    const victoryMusic = document.getElementById("victory-music");
+    const comedyMusic = document.getElementById("comedy-music");
+
+    // ensure music starts even if autoplay blocked
+    window.addEventListener("load", () => {
+      bgMusic.play().catch(() => {
+        document.body.addEventListener("click", () => bgMusic.play(), { once: true });
+      });
+    });
+
+    function stopAllMusic() {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+      victoryMusic.pause();
+      victoryMusic.currentTime = 0;
+      comedyMusic.pause();
+      comedyMusic.currentTime = 0;
+    }
+
+    function handleYes() {
+      stopAllMusic();
+      victoryMusic.play();
+
+      content.innerHTML = `
+        <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="yay gif">
+        <h2>Yes! I knew you loved me cutie pie 💖</h2>
+      `;
+      showSparkles();
+    }
+
+    function handleNo() {
+      stopAllMusic();
+      comedyMusic.play();
+
+      step++;
+      if (step === 1) {
+        gif.src = "https://media.giphy.com/media/j5QcmXoFWl4Q0/giphy.gif";
+        question.innerText = "No need to be shy, you can be honest. Do you love me?";
+      } else if (step === 2) {
+        gif.src = "https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif";
+        question.innerText = "Please think again 🥺";
+      } else if (step === 3) {
+        gif.src = "https://media.giphy.com/media/3ohc1dFUGhE7f1g3FK/giphy.gif";
+        question.innerText = "Maan jao na, kitna bhaav khaogi 💕";
+        noBtn.onmouseover = moveNoButton;
+      }
+    }
+
+    function moveNoButton() {
+      let x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50);
+      let y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50);
+      noBtn.style.position = "absolute";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    function showSparkles() {
+      sparkles.style.display = "block";
+      for (let i = 0; i < 50; i++) {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.style.left = Math.random() * window.innerWidth + "px";
+        sparkle.style.top = Math.random() * window.innerHeight + "px";
+        sparkles.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+      }
+    }
+  </script>
+</body>
+</html>
