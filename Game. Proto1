@@ -77,12 +77,6 @@
   </style>
 </head>
 <body>
-  <!-- Background Music -->
-  <audio id="bg-music" autoplay loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-
   <div class="container" id="content">
     <img id="gif" src="https://media.giphy.com/media/l4FGuhL4U2WyjdkaY/giphy.gif" alt="cute gif">
     <h2 id="question">Do you Love Me? 💕</h2>
@@ -101,12 +95,6 @@
     const content = document.getElementById("content");
     const noBtn = document.getElementById("noBtn");
     const sparkles = document.getElementById("sparkles");
-    const music = document.getElementById("bg-music");
-
-    // Some browsers block autoplay unless user interacts
-    document.body.addEventListener("click", () => {
-      music.play();
-    }, { once: true });
 
     function handleYes() {
       content.innerHTML = `
